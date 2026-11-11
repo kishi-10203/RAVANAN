@@ -43,7 +43,7 @@ The plan is to create a modular platform with:
 | Research Agent | Information gathering |
 | Calendar Agent | Scheduling and reminders |
 
-These are initial ideas. More agents and capabilities may be added as the project evolves.
+> These are initial ideas. More agents and capabilities may be added as the project evolves.
 
 ## Technology Stack
 
@@ -71,13 +71,10 @@ Ravanan/
 ├── integrations/
 ├── infrastructure/
 └── docs/
+```
 
-
-
----
-
-#License and Usage
-###Copyright (c) 2026. All rights reserved.
+# License and Usage
+### Copyright (c) 2026. All rights reserved.
 
 This repository is publicly available for viewing and exploration.
 
