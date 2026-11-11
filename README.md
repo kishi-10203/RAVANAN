@@ -2,25 +2,23 @@
 
 ### Ten Minds. One Intelligence.
 
-A personal project to build and experiment with a self-hosted AI automation system using multiple specialised agents.
+A personal project to build and experiment with a self-hosted AI automation using multiple specialised agents.
 
-The idea is to have different AI agents handle different tasks, such as managing emails, finding job opportunities, organising personal tasks, and conducting research. Instead of building each agent as a completely separate application, I want them to work together using a shared AI infrastructure.
+The idea is to have different AI agents handle different tasks, such as **managing emails**, finding **job opportunities**, **organising personal tasks**, and **conducting research**. Instead of building each agent as a completely separate application, I want them to work together using a **shared AI infrastructure**.
 
 I'm using this project to explore local LLMs, AI agents, automation, containerisation, and how different services can be connected to build a useful personal assistant system.
 
 ## Why the name Ravanan?
 
-The name is inspired by Ravanan from Indian mythology.
+The name is inspired by Ravanan from **Indian mythology**.
 
-Ravanan was known for his knowledge, abilities, determination, and ten heads. His story also reminds us that knowledge and power alone are not enough.
+Ravanan was known for his **knowledge, abilities, determination, and ten heads**.
 
-One lesson from his story that I find relevant to modern technology is:
 
+His story reminds us that:
 > Knowledge without wisdom, and power without self-control, can lead to destruction.
 
-I think this is particularly important in the age of AI. As we build systems that can make decisions and perform tasks independently, we should also think about their limitations, responsibilities, and the level of control we give them.
-
-This is a principle I want to keep in mind while developing this project.
+---
 
 ## What am I building?
 
@@ -33,17 +31,18 @@ The plan is to create a modular platform with:
 - **Infrastructure:** Containerised services that can be developed, deployed, and maintained independently.
 - **Monitoring:** Basic logging, health checks, and resource monitoring.
 
+---
+
 ## Planned Agents
 
 | Agent | Purpose |
 |---|---|
 | Email Agent | Email classification and management |
-| Job Agent | Job discovery and matching |
-| Productivity Agent | Personal task management |
-| Research Agent | Information gathering |
-| Calendar Agent | Scheduling and reminders |
+| Job search Agent | Job discovery and matching |
 
 > These are initial ideas. More agents and capabilities may be added as the project evolves.
+
+---
 
 ## Technology Stack
 
@@ -60,18 +59,9 @@ The initial technology choices include:
 
 The intention is to run most of the platform locally and use a shared LLM service rather than running a separate model for every agent.
 
-## Project Structure
 
-```text
-Ravanan/
-│
-├── core/
-├── agents/
-├── services/
-├── integrations/
-├── infrastructure/
-└── docs/
-```
+---
+
 
 # License and Usage
 ### Copyright (c) 2026. All rights reserved.
