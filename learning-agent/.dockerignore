@@ -1,0 +1,58 @@
+
+# Python virtual environments
+.venv/
+venv/
+env/
+
+# Python cache
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Testing
+tests/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Code quality
+.ruff_cache/
+.mypy_cache/
+
+# Git
+.git/
+.gitignore
+
+# IDE and editor
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Documentation
+README.md
+docs/
+
+# Temporary files
+*.tmp
+*.swp
+*.bak
+
+# Local application data (if not required in the image)
+data/
+
+# Build artifacts
+build/
+dist/
+*.egg-info/
