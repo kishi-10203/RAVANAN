@@ -148,75 +148,219 @@ However, `autonomous learning` must be `evidence-based`, `explainable`, and `rev
 #### 3.1 Learning Inputs
 The learning engine can receive several types of feedback signals.
 
-##### A. Explicit Feedback
-
-Explicit feedback - `direct instructions` by user.
-
-
-Potential learning signals:
-
-| User Feedback | Potential Learning Signal |
-|---|---|
-| Explain this in more detail. | Preference for detailed explanations |
-| This explanation is too shallow. | Preference for greater technical depth |
-| Don't simplify technical terminology. | Preference for preserving technical terminology |
-| Include implementation details. | Preference for practical implementation guidance |
-| Explain the underlying mechanism. | Preference for conceptual and internal explanations |
-
-> `Explicit feedback` is generally a strong `learning signal` because the user directly communicates what should change.
-
-learning engine must distinguish between:
-- `Temporary instructions` applying only to the `current response`.
-- `Topic-specific` preferences.
-- `Recurring` preferences.
-- `Global` preferences.
-
-A single instruction should not automatically become a permanent global preference.
+- `Explicit Feedback` - direct instructions by user
+- `Document Edits` - user-modification patterns on the doccument
+- `Acceptance & Rejection or Regeneration` - user acceptance to the proposed change 
+- `Human Interruptions` - interruption during an explanation, provide contextual information.
 
 ---
 
-##### B. Document Edits
+#### 3.2 Learning Pipeline
 
-The `learning engine` should compare generated documents against `user-modified` versions to identify `recurring editing patterns`.
+Structured process that converts raw feedback into validated persistent memory updates.
 
-Possible signals:
+```text
+              ┌──────────────────────────┐
+              │          START           │
+              └────────────┬─────────────┘
+                           │
+                           ▼
+              ┌──────────────────────────┐
+              │ 1. Collect raw Feedback  │
+              └────────────┬─────────────┘
+                           │
+                           ▼
+              ┌──────────────────────────┐
+              │   2. Identify Context    │
+              └────────────┬─────────────┘
+                           │
+                           ▼
+              ┌──────────────────────────┐
+              │   3. Classify Feedback   │
+              └────────────┬─────────────┘
+                           │
+                           ▼
+              ┌─────────────────────────────┐
+              │ 4. Determine Feedback Type  |
+              │     • Temporary Instruction │
+              │     • Knowledge Gap         │
+              │     • Persistent Preference │
+              └────────────┬────────────────┘
+                           │
+                           ▼
+             ┌──────────────────────────────┐
+             │ 5. Identify Applicable Scope │
+             └────────────┬─────────────────┘
+                          │
+                          ▼
+            ┌─────────────────────────────────┐
+            │ 6. Compare Existing Preferences │
+            │     • conflicts                 │
+            │     • duplication               │
+            │     • changes                   │
+            └──────────────┬──────────────────┘
+                           │
+                           ▼
+          ┌────────────────────────────────────┐
+          │ 7. Generate Proposed Memory Update │
+          └────────────────┬───────────────────┘
+                           │
+                           ▼
+              ┌──────────────────────────┐
+              │ 8. Validate              │
+              │     • accuracy           │
+              │     • consistency        │
+              │     • applicability      │
+              └────────────┬─────────────┘
+                           │
+                           ▼
+          ┌────────────────────────────────────┐
+          │ 9. Apply Update & validated change │
+          └────────────────┬───────────────────┘
+                           │
+                           ▼
+        ┌────────────────────────────────────────┐
+        │ 10. Record Evidence & Version History  │
+        │       • Store supporting context       │
+        │       • update history                 │
+        └──────────────────┬─────────────────────┘
+                           │
+                           ▼
+              ┌──────────────────────────┐
+              │ 11. Evaluate Impact      │
+              └────────────┬─────────────┘
+                           │
+                           ▼
+              ┌──────────────────────────┐
+              │          END             │
+              │ Persistent Memory Updated│
+              └──────────────────────────┘
+```
 
-| User Modification | Potential Learning Signal |
-|---|---|
-| Repeatedly `expanded explanations` | Preference for additional detail |
-| Removed `unnecessary content` | Preference for concise and relevant information |
-| Added missing `implementation details` | Preference for practical technical coverage |
-| `Reorganized headings` | Possible structural preference |
-| Replaced `tables` with prose | Possible preference for narrative explanations |
-| Added `formatting` | Preference for catchy visuals on important topics | 
+The `learning engine` must not blindly append every correction to the `preference profile`.
 
-Document edits must be `interpreted cautiously` because users may modify content for reasons unrelated to their general preferences.
-
-> Document modifications should initially be treated as `observations` rather than `confirmed preferences`.
-
-`Repeated patterns` across `multiple documents` can gradually `increase confidence`.
+Instead, it should `refine existing preferences` whenever the new evidence represents a modification of an existing rule.
 
 ---
 
-##### C. Acceptance and Rejection
+#### 3.3 Metadata Definitions
 
-The system can observe whether users `accept`, `reject`, or `request regeneration` of generated explanations.
-
-
-Potential learning signals:
-
-| User Action | Potential Learning Signal |
+| Field | Description |
 |---|---|
-| `Accepts` generated explanation | Weak positive signal |
-| `Rejects` generated explanation | Negative signal requiring contextual analysis |
-| `Repeatedly requests` regeneration | Possible mismatch with expectations |
-| Requests `additional detail` | Preference for greater depth |
-| Accepts `revised explanation` | Evidence that the revision addressed the issue |
-
-Acceptance alone is weak evidence of a specific preference.
-
-> `explanation` does not necessarily indicate a preference for short explanations, technical explanations, or a particular writing style.
-
-The `learning engine` should `combine acceptance patterns` with more `explicit evidence` before `modifying persistent preferences`.
+| `id` | Unique identifier for the preference |
+| `scope` | Domain or context where the preference applies |
+| `instruction` | The actual learned preference |
+| `confidence` | Heuristic confidence score |
+| `evidence_count` | Number of supporting observations |
+| `source` | Origin of the learning evidence |
+| `status` | Current lifecycle state |
+| `created_at` | Initial creation timestamp |
+| `updated_at` | Most recent modification timestamp |
 
 ---
+
+#### 3.4 Preference Lifecycle
+
+The system should distinguish between the following preference states.
+
+| Status | Meaning |
+|---|---|
+| `Tentative` | Newly identified preference with limited evidence |
+| `Established`| Preference supported by sufficient recurring evidence |
+| `Active` | Preference currently applied during generation |
+| `Superseded` | Preference replaced by a newer version |
+| `Rejected` | Preference explicitly rejected or invalidated |
+
+> A single feedback event should not automatically create a `ermanent global preference`.
+
+---
+
+#### 3.5 Autonomous Learning Safeguards
+
+| Safeguard | Responsibility |
+|---|---|
+| `Preference Versioning` | Preserve previous versions of learned preferences |
+| `Reverting Changes` | Restore an earlier preference version |
+| `Contradiction Resolution` | Identify and resolve conflicting preferences |
+| `Evidence Tracking` | Maintain feedback supporting each preference |
+| `Duplicate Prevention` | Avoid creating multiple equivalent preference rules |
+| `Scope Separation` | Prevent topic-specific preferences from becoming global rules |
+| `Temporary Instruction Isolation` | Prevent one-time instructions from becoming permanent preferences |
+| `Confidence Thresholds` | Limit the influence of weak observations |
+| `User Inspection` | Allow users to review learned preferences |
+| `User Override` | Allow users to modify or disable learned preferences |
+
+
+### EdgeCase: Contradictory Preferences
+Consider the following situation:
+- `Existing preference`: Provide detailed explanations.
+- `New feedback`: Keep this explanation short.
+
+here, `learning engine` should not immediately replace the `existing preference`.
+
+- This request concerns a specific document or topic, representing a `temporary instruction`.
+- Repeated requests across multiple topics, is a evidence of `preference change`.
+
+> `learning engine` should preserve both and resolve their applicability through scope and context.
+
+---
+
+#### 3.6 Technical workflow 
+
+```text
+Feedback Sources
+    |
+    |-- Explicit Feedback
+    |-- Document Edits
+    |-- Acceptance and Rejection
+    |-- Human Interruptions
+    |
+    v
+Feedback Records
+    |
+    |-- Raw Observations
+    |-- Contextual Metadata
+    |
+    v
+Learning Engine
+    |
+    |-- Feedback Classification
+    |-- Scope Detection
+    |-- Evidence Evaluation
+    |
+    v
+Preference Validation
+    |
+    |-- Conflict Resolution
+    |-- Duplicate Detection
+    |-- Confidence Checks
+    |
+    v
+Persistent Preference Memory
+    |
+    |-- Active Preferences
+    |-- Version History
+    |-- Evidence References
+    |
+    v
+Response Generation
+    |
+    |-- Preference Retrieval
+    |-- Contextual Application
+    |-- Adapted Output
+```
+---
+---
+
+## Data Design 
+
+Recommended SQLite Tables
+
+| Table | Purpose |
+|---|---|
+| `feedback_events` | Store original feedback and interaction records |
+| `learning_observations` | Store classified learning signals |
+| `preferences` | Store current persistent preferences |
+| `preference_versions` | Maintain historical preference versions |
+
+It also prevents the `LLM` from directly `modifying persistent memory` without passing through `validation logic`.
