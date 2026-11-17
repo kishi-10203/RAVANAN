@@ -352,7 +352,7 @@ Response Generation
 ---
 ---
 
-## Data Design 
+## 4. Data Design 
 
 Recommended SQLite Tables
 
@@ -364,3 +364,68 @@ Recommended SQLite Tables
 | `preference_versions` | Maintain historical preference versions |
 
 It also prevents the `LLM` from directly `modifying persistent memory` without passing through `validation logic`.
+
+---
+---
+
+## 5. QWEN3.5:4B - Input
+
+```text
+# What Qwen Receives
+
+```text
+        ┌──────────────────────────────────────┐
+        │      1. System Instructions          │
+        │                                      │
+        │        • responsibilities            │
+        │        • constraints                 │
+        │        • expected output             │
+        └──────────────────┬───────────────────┘
+                           │
+                           ▼
+        ┌──────────────────────────────────────┐
+        │       2. Learning Preferences        │
+        │                                      │
+        │           • Explanation depth        | 
+        |           • Technical level          │
+        │           • Preferred examples       | 
+        |           • Terminology              │
+        │           • Formatting               │
+        └──────────────────┬───────────────────┘
+                           │
+                           ▼
+        ┌──────────────────────────────────────┐
+        │    3. Topic-Specific Preferences     │
+        └──────────────────┬───────────────────┘
+                           │
+                           ▼
+        ┌──────────────────────────────────────┐
+        │          4. Original Markdown        │
+        └──────────────────┬───────────────────┘
+                           │
+                           ▼
+     ┌────────────────────────────────────────────┐
+     │ 5. Additional Context - previous feedback  │
+     └─────────────────────┬──────────────────────┘
+                           │
+                           ▼
+                 ┌───────────────────┐
+                 │  Message Assembly │
+                 │                   │
+                 │   final prompt    │
+                 └─────────┬─────────┘
+                           │
+                           ▼
+                 ┌───────────────────┐
+                 │      Ollama       │
+                 │         ↓         │
+                 │   Qwen 3.5 4B     │
+                 └─────────┬─────────┘
+                           │
+                           ▼
+                 ┌───────────────────┐
+                 │       Model       │
+                 │  Generates output │
+                 └───────────────────┘
+```
+
