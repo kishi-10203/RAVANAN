@@ -291,7 +291,7 @@ The system should distinguish between the following preference states.
 | `User Override` | Allow users to modify or disable learned preferences |
 
 
-### EdgeCase: Contradictory Preferences
+> ### EdgeCase: Contradictory Preferences
 Consider the following situation:
 - `Existing preference`: Provide detailed explanations.
 - `New feedback`: Keep this explanation short.
